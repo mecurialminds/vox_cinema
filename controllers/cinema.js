@@ -33,3 +33,20 @@ exports.getCinemas = function(req, res) {
         } else res.json(data);
     });
 };
+exports.getCinemaId = function(req, res) {
+
+    if (req.query.cinema == undefined || req.query.cinema == null || req.query.cinema.trim() == '') {
+        var err = {};
+        err.status = "Error";
+        err.msg = "city parameter is missing!";
+        res.send(err);
+        return;
+    }
+    let query = `SELECT cinema,id FROM cinemas WHERE cinema LIKE '${req.query.cinema}'`;
+    console.log(query);
+    db.readOperation(query, (data) => {
+        if (data.success) {
+            res.json(data);
+        } else res.json(data);
+    });
+};

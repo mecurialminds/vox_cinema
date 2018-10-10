@@ -20,6 +20,7 @@ router.get('/sendCarousel', moviesController.sendCarousel);
 router.get('/showTimeCarousel', moviesController.showTimeCarousel);
 router.get('/getCities', cinemaController.getCities);
 router.get('/getCinemas', cinemaController.getCinemas);
+router.get('/getCinemaId', cinemaController.getCinemaId);
 router.get('/chooseSeats', seatBookingController.renderSeats);
 router.post('/bookseats', seatBookingController.bookSeats);
 
