@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Seat Selection</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/customstyle.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/cinestyle.css">
+
+	<script src="/javascripts/seatbooking.js"></script>
+
+	<script>
+        var seatCount = 5;
+        var bookseats = [];
+        var movie_id = "<%= movie_id %>";
+        var show_date = "<%= show_date %>";
+        var user = "<%= user_id %>";
+        var cinema_id = "<%= cinema %>";
+        console.log("Movie id = " + movie_id);
+        console.log("Booking Date = " + show_date);
+        $(document).ready(function () {
+            var reservedSeats = "<%= reservedSeats %>";
+
+            reservedSeats = reservedSeats.split(',');
+            console.log(reservedSeats);
+            let selector = '',
+                rows = ['A','B','C','D','E','F'],
+                seats = [1,2,3,4,5,6,7,8,9,10,11];
+
+            for(let i=0; i<rows.length; i++) {
+                if(rows[i] == 'F') {
+                    seats.push(12);
+                }
+                for (let j=0; j<seats.length; j++) {
+                    if(reservedSeats.indexOf(rows[i] + '-' + seats[j]) >= 0){
+
+                    }else{
+                        selector = '#' + rows[i] + '-' + seats[j];
+                        $(selector).removeClass('cp-selected-seat');
+                        $(selector).removeClass('cp-sold-seat');
+                        $(selector).addClass('cp-available-seat');
+                        $(selector).attr('onClick','getvalue(this,"'+rows[i]+'",'+seats[j]+')');
+                        $(selector).attr('style','cursor: pointer;');
+                    }
+                }
+            }
+        });
+
+        $(document).on('click', '.style-btn', function(){
+            if($(this).text() == 'Book Seats'){
+
+                if(bookseats.length == 0){
+                    alert("Please Select seat");
+
+                }else{
+                    for(var i=0; i<bookseats.length;i++) {
+
+                        $('#'+bookseats[i]).toggleClass('cp-selected-seat cp-sold-seat');
+                    }
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:3000/vox_cinemas/bookseats',
+                        data: JSON.stringify({seats:bookseats, id: movie_id, date: show_date, user_id: user, cinema_id: cinema_id}),
+                        success: function(data) { console.log('success')},
+                        contentType: "application/json",
+                        dataType: 'json'
+                    });
+                    bookseats = [];
+                    // $('#chat').val(sendSeats);
+                    //document.getElementById('chat').value = sendSeats;
+                    //setSenderMessage();
+                    //web.sendMessage();
+                    //setReciverMessage();
+                }
+            }
+        });
+
+        function render_seatMap() {
+
+            console.log("Hi");
+        }
+        function removeA(arr) {
+            var what, a = arguments, L = a.length, ax;
+            while (L > 1 && arr.length) {
+                what = a[--L];
+                while ((ax= arr.indexOf(what)) !== -1) {
+                    arr.splice(ax, 1);
+                }
+            }
+            return arr;
+        }
+        function getvalue(x,row,seat){
+
+            console.log(x.id);
+            var divclass = $(x).attr('class');
+            if(divclass == "cp-available-seat") {
+                if(seatCount > 0){
+                    $(x).toggleClass('cp-available-seat cp-selected-seat');
+                    bookseats.push(row + '-' + seat);
+                    seatCount--;
+                }else{
+                    window.alert("You have already selected Maximum seats.");
+                }
+            }else if(divclass == "cp-selected-seat"){
+                removeA(bookseats, row + '-' + seat);
+                seatCount++;
+                $(x).toggleClass('cp-available-seat cp-selected-seat');
+            }else{
+                $(x).toggleClass('cp-available-seat cp-selected-seat');
+            }
+            console.log(divclass);
+        }
+
+
+
+	</script>
+
+
+</head>
+
+<body>
+<script>
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
+</script>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12">
+			<div id="div-seats">
+				<span class="row" id="seat_Layout">
+					<section class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cp-select-your-seat" style="padding:0px !important" >
+						<div class="mscreen"></div>
+						<div class="cp-outer-tableseat mCustomScrollbar _mCS_1 mCS_no_scrollbar">
+							<div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_horizontal mCSB_inside" tabindex="0">
+								<div id="mCSB_1_container" class="mCSB_container mCS_x_hidden mCS_no_scrollbar_x" style="position: relative; top: 0px; left: 0px; width: 100%;" dir="ltr">
+									<div class="cp-inner-tableseat" style="width: 100%;">
+										<section class="cp-select-seat" style="width: 100%;">
+											<ul class="mb10">
+												<li class="cp-alpha-seat">A</li>
+												<li id="A-1" class="cp-sold-seat"><span>1</span></li>
+												<li id="A-2" class="cp-sold-seat"><span>2</span></li>
+												<li id="A-3" class="cp-sold-seat"><span>3</span></li>
+												<li id="A-4" class="cp-sold-seat"><span>4</span></li>
+												<li id="A-5" class="cp-sold-seat"><span>5</span></li>
+												<li class="no-seat">&nbsp;</li>
+												<li id="A-6" class="cp-sold-seat"><span>6</span></li>
+												<li id="A-7" class="cp-sold-seat"><span>7</span></li>
+												<li id="A-8" class="cp-sold-seat"><span>8</span></li>
+												<li id="A-9" class="cp-sold-seat"><span>9</span></li>
+												<li id="A-10" class="cp-sold-seat"><span>10</span></li>
+												<li id="A-11" class="cp-sold-seat"><span>11</span></li>
+											</ul>
+											<ul class="mb10">
+												<li class="cp-alpha-seat">B</li>
+												<li id="B-1" class="cp-sold-seat"><span>1</span></li>
+												<li id="B-2" class="cp-sold-seat"><span>2</span></li>
+												<li id="B-3" class="cp-sold-seat"><span>3</span></li>
+												<li id="B-4" class="cp-sold-seat"><span>4</span></li>
+												<li id="B-5" class="cp-sold-seat"><span>5</span></li>
+												<li class="no-seat">&nbsp;</li>
+												<li id="B-6" class="cp-sold-seat"><span>6</span></li>
+												<li id="B-7" class="cp-sold-seat"><span>7</span></li>
+												<li id="B-8" class="cp-sold-seat"><span>8</span></li>
+												<li id="B-9" class="cp-sold-seat"><span>9</span></li>
+												<li id="B-10" class="cp-sold-seat"><span>10</span></li>
+												<li id="B-11" class="cp-sold-seat"><span>11</span></li>
+											</ul>
+											<ul class="mb10">
+												<li class="cp-alpha-seat">C</li>
+												<li id="C-1" class="cp-sold-seat"><span>1</span></li>
+												<li id="C-2" class="cp-sold-seat"><span>2</span></li>
+												<li id="C-3" class="cp-sold-seat"><span>3</span></li>
+												<li id="C-4" class="cp-sold-seat"><span>4</span></li>
+												<li id="C-5" class="cp-sold-seat"><span>5</span></li>
+												<li class="no-seat">&nbsp;</li>
+												<li id="C-6" class="cp-sold-seat"><span>6</span></li>
+												<li id="C-7" class="cp-sold-seat"><span>7</span></li>
+												<li id="C-8" class="cp-sold-seat"><span>8</span></li>
+												<li id="C-9" class="cp-sold-seat"><span>9</span></li>
+												<li id="C-10" class="cp-sold-seat"><span>10</span></li>
+												<li id="C-11" class="cp-sold-seat"><span>11</span></li>
+											</ul>
+											<ul class="mb10">
+												<li class="cp-alpha-seat">D</li>
+												<li id="D-1" class="cp-sold-seat"><span>1</span></li>
+												<li id="D-2" class="cp-sold-seat"><span>2</span></li>
+												<li id="D-3" class="cp-sold-seat"><span>3</span></li>
+												<li id="D-4" class="cp-sold-seat"><span>4</span></li>
+												<li id="D-5" class="cp-sold-seat"><span>5</span></li>
+												<li class="no-seat">&nbsp;</li>
+												<li id="D-6" class="cp-sold-seat"><span>6</span></li>
+												<li id="D-7" class="cp-sold-seat"><span>7</span></li>
+												<li id="D-8" class="cp-sold-seat"><span>8</span></li>
+												<li id="D-9" class="cp-sold-seat"><span>9</span></li>
+												<li id="D-10" class="cp-sold-seat"><span>10</span></li>
+												<li id="D-11" class="cp-sold-seat"><span>11</span></li>
+											</ul>
+											<ul class="mb10">
+												<li class="cp-alpha-seat">E</li>
+												<li id="E-1" class="cp-sold-seat"><span>1</span></li>
+												<li id="E-2" class="cp-sold-seat"><span>2</span></li>
+												<li id="E-3" class="cp-sold-seat"><span>3</span></li>
+												<li id="E-4" class="cp-sold-seat"><span>4</span></li>
+												<li id="E-5" class="cp-sold-seat"><span>5</span></li>
+												<li class="no-seat">&nbsp;</li>
+												<li id="E-6" class="cp-sold-seat"><span>6</span></li>
+												<li id="E-7" class="cp-sold-seat"><span>7</span></li>
+												<li id="E-8" class="cp-sold-seat"><span>8</span></li>
+												<li id="E-9" class="cp-sold-seat"><span>9</span></li>
+												<li id="E-10" class="cp-sold-seat"><span>10</span></li>
+												<li id="E-11" class="cp-sold-seat"><span>11</span></li>
+											</ul>
+											<ul class="mb10">
+												<li class="cp-alpha-seat">F</li>
+												<li id="F-1" class="cp-sold-seat"><span>1</span></li>
+												<li id="F-2" class="cp-sold-seat"><span>2</span></li>
+												<li id="F-3" class="cp-sold-seat"><span>3</span></li>
+												<li id="F-4" class="cp-sold-seat"><span>4</span></li>
+												<li id="F-5" class="cp-sold-seat"><span>5</span></li>
+												<li id="F-6" class="cp-sold-seat"><span>6</span></li>
+												<li id="F-7" class="cp-sold-seat"><span>7</span></li>
+												<li id="F-8" class="cp-sold-seat"><span>8</span></li>
+												<li id="F-9" class="cp-sold-seat"><span>9</span></li>
+												<li id="F-10" class="cp-sold-seat"><span>10</span></li>
+												<li id="F-11" class="cp-sold-seat"><span>11</span></li>
+												<li id="F-12" class="cp-sold-seat"><span>12</span></li>
+											</ul>
+										</section>
+									</div>
+								</div>
+								<div id="mCSB_1_scrollbar_horizontal" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_horizontal" style="display: none;">
+									<div class="mCSB_draggerContainer">
+										<div id="mCSB_1_dragger_horizontal" class="mCSB_dragger" style="position: absolute; min-width: 30px; width: 0px; left: 0px;" oncontextmenu="return false;">
+											<div class="mCSB_dragger_bar"></div>
+										</div>
+										<div class="mCSB_draggerRail"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-12 col-lg-12 text-center">
+							<button class="style-btn">Book Seats</button>
+						</div>
+					</section>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+
+</html>

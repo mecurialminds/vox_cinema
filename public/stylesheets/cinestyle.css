@@ -1,0 +1,155 @@
+#div-seats {
+	margin-top:20%;
+}
+.cp-select-your-seat {
+	/*background: url(images/seatlayout-bg.png) center bottom no-repeat;*/
+	margin: 0 0 25px;
+}
+.mscreen{
+	background: url(../images/seatlayout-bg.png) center bottom no-repeat;
+}
+.mCustomScrollbar.mCS_no_scrollbar {
+	-ms-touch-action: auto;
+	touch-action: auto;
+}
+.cp-select-your-seat .mCustomScrollbar {
+	height: auto;
+	text-align: center;
+}
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+div {
+	display: block;
+}
+.mCustomScrollBox {
+	position: relative;
+	overflow: hidden;
+	height: 100%;
+	max-width: 100%;
+	outline: none;
+	direction: ltr;
+	display: inline-block;
+}
+.mCSB_horizontal > .mCSB_container.mCS_no_scrollbar_x.mCS_x_hidden {
+	margin-bottom: 0;
+}
+.mCSB_horizontal.mCSB_inside > .mCSB_container {
+	margin-right: 0;
+	margin-bottom: 30px;
+}
+.mCSB_container {
+	overflow: hidden;
+	height: auto;
+}
+.cp-select-your-seat .cp-select-seat {
+	display: table;
+	height: auto;
+	margin: 0 auto;
+	text-align: center;
+	padding: 0 0 80px;
+}
+.cp-select-your-seat .cp-select-seat ul {
+	float: left;
+	text-align: center;
+	width: 100%;
+}
+.mb10 {
+	margin-bottom: 10px !important;
+}
+ul, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.cp-select-your-seat .cp-select-seat li.cp-alpha-seat {
+	text-transform: uppercase;
+	background: none;
+	line-height: 16px;
+	font-weight: 800;
+	/*font-size: 15px;*/
+	color: #797979;
+	line-height: 28px;
+}
+.cp-select-your-seat .cp-select-seat li {
+	/*width: 6%;*/
+	height: 20px;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	/*margin-right: 5px;*/
+}
+ul, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.cp-select-your-seat .cp-select-seat li.cp-available-seat {
+	/*background: url(images/available-seat.png) 0 0 no-repeat;
+    background-size: contain;*/
+	background-color: #ff3636;
+	color: white;
+	line-height: 23px;
+}
+.cp-select-your-seat .cp-select-seat li {
+	/*width: 26px;*/
+	height: 20px;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	/*margin-right: 5px;*/
+	line-height: 12px;
+}
+ul, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.cp-select-your-seat .cp-select-seat li {
+	width: 5%;
+	height: 20px;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	margin-right: 1%;
+}
+.cp-select-your-seat .cp-select-seat ul {
+	float: left;
+	text-align: center;
+	width: 100%;
+}
+.mb10 {
+	margin-bottom: 10px !important;
+}
+.mCSB_scrollTools.mCSB_scrollTools_horizontal {
+	width: auto;
+	height: 16px;
+	top: auto;
+	right: 0;
+	bottom: 50px;
+	left: 0;
+}
+.mCSB_scrollTools {
+	opacity: 0.75;
+}
+.cp-select-your-seat .cp-select-seat li.cp-selected-seat {
+	/*background: url(images/selected-seat.png) 0 0 no-repeat;
+    background-size: contain;*/
+	background-color: #02c318;
+	color: white;
+	line-height: 23px;
+}
+.cp-select-your-seat .cp-select-seat li.cp-sold-seat {
+	/*background: url(images/sold-seat.png) 0 0 no-repeat;
+    background-size: contain;*/
+	background-color: #474747;
+	color: #7e7e7e;
+	line-height: 23px;
+}
+li span {
+	font-size: 14px;
+	vertical-align: bottom;
+}
+
