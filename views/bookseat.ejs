@@ -61,7 +61,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: 'http://localhost:3000/vox_cinemas/bookseats',
+                        url: 'https://voxcinema.herokuapp.com/vox_cinemas/bookseats',
                         data: JSON.stringify({seats:bookseats, id: movie_id, date: show_date, user_id: user, cinema_id: cinema_id}),
                         success: function(data) { console.log('success')},
                         contentType: "application/json",
