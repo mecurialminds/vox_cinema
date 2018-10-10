@@ -13,7 +13,7 @@ exports.bookSeats = function(req,res) {
         show_date = req.body.date,
         user_id = req.body.user_id,
         cinema_id =  req.body.cinema_id,
-        query = 'INSERT INTO tickets (movie_id, seat_number, booking_date, user_id, cinema_id) VALUES ?',
+        query = 'INSERT INTO tickets (movie_id, seat_number, show_date, user_id, cinema_id) VALUES ?',
         values = [];
 
     let pageToken = 'EAAGp38xLPpABACXnZBIgK5JtAl31aoDA8Sf8PSZBGVlknf1opnuZAJC9UmRdQ2svZBVhRLLpvobHRrXNW94OOL4bZB71GCIulZADBJklJrSEMlAWbl8oxO8RRVzi2ZCKejoouHFFdZAdZCrsf2OfrFDfoCJ079glW6ZAp6tsbFUGYxY76czwSvFDlNAT3rJEr4m3EZD',
