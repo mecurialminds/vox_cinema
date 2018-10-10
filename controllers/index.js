@@ -17,6 +17,7 @@ let moviesController     = require('./movies'),
 router.get('/getmovies', moviesController.getMovies);
 router.get('/getMovieByName', moviesController.getMovieByName);
 router.get('/sendCarousel', moviesController.sendCarousel);
+router.get('/showTimeCarousel', moviesController.showTimeCarousel);
 router.get('/getCities', cinemaController.getCities);
 router.get('/getCinemas', cinemaController.getCinemas);
 router.get('/chooseSeats', seatBookingController.renderSeats);

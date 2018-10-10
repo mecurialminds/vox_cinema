@@ -110,3 +110,80 @@ exports.sendCarousel = function(req, res) {
         } else res.json(data);
     });
 };
+exports.showTimeCarousel = function(req, res) {
+
+    if (req.query.user_id == undefined || req.query.user_id == null || req.query.user_id.trim() == '') {
+        var err = {};
+        err.status = "Error";
+        err.msg = "user id parameter is missing!";
+        res.send(err);
+        return;
+    }
+    let user_id = req.query.user_id,
+        pageToken = 'EAAGp38xLPpABACXnZBIgK5JtAl31aoDA8Sf8PSZBGVlknf1opnuZAJC9UmRdQ2svZBVhRLLpvobHRrXNW94OOL4bZB71GCIulZADBJklJrSEMlAWbl8oxO8RRVzi2ZCKejoouHFFdZAdZCrsf2OfrFDfoCJ079glW6ZAp6tsbFUGYxY76czwSvFDlNAT3rJEr4m3EZD',
+        url = `https://graph.facebook.com/v2.6/me/messages?access_token=${pageToken}`;
+
+    let query = `SELECT * FROM movies`;
+    console.log(query);
+    db.readOperation(query, (data) => {
+        if (data.success) {
+
+            let elements = [],
+                movies = data.data,
+                len = 10;
+
+            if(movies.length < 10){
+                len = movies.length;
+            }
+
+
+            for(let i=0; i<len; i++) {
+                elements.push(
+                    {
+                        "title": "" + movies[i].title,
+                        "image_url": "" + movies[i].image_url,
+                        "buttons":[
+                            {
+                                "type": "web_url",
+                                "title": "Show Time",
+                                "url": "https://uae.voxcinemas.com/movies/" + movies[i].stime_postback + "#showtimes",
+                                "webview_height_ratio": "tall",
+                                "messenger_extensions": "false"
+                            }
+                        ]
+                    }
+                );
+            }
+
+            let json = {
+                "recipient": {
+                    "id": "" + user_id
+                },
+                "message": {
+                    "attachment": {
+                        "type":"template",
+                        "payload": {
+                            "template_type":"generic",
+                            "elements": elements
+                        }
+                    }
+
+                }
+            };
+
+            res.json(data);
+
+            request({
+                url: url,
+                method: "POST",
+                json: true,   // <--Very important!!!
+                body: json
+            }, function (error, response, body){
+                console.log(response);
+            });
+
+
+            //res.json(data);
+        } else res.json(data);
+    });
+};
