@@ -73,6 +73,12 @@
                     //setSenderMessage();
                     //web.sendMessage();
                     //setReciverMessage();
+
+                    MessengerExtensions.requestCloseBrowser(function success() {
+
+                    }, function error(err) {
+
+                    });
                 }
             }
         });
