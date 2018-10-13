@@ -1,0 +1,166 @@
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="bootstrap-3-vert-offset-shim.css">
+    <style>
+        h2{
+            font-family: Arial;
+        }
+        p{
+            font-family: Arial;
+            font-size: 15px;
+        }
+        td{
+            font-size: 15px;
+            font-family: Arial;
+            color: gray;
+        }
+
+        table{
+            border: none;
+        }
+        #exp_id,#crd_no{
+            border-radius: 0px;
+            font-size: 15px;
+            padding: 8px;
+        }
+        #txt{
+            font-size: 15px;
+            font-family: Arial;
+            color: gray;
+            padding-top: 30px;
+
+        }
+        a{
+            font-family: Arial;
+            font-size: 15px;
+            text-decoration: none;
+        }
+        #sec_id{
+            border-radius: 0px;
+            padding: 8px;
+
+        }
+        button{
+            position :fixed;
+            bottom: 10px;
+            width: 60%;
+            hieght:20px;
+        }
+    </style>
+    <script>
+
+        var movie_id = "<%= movie_id %>";
+        var show_date = "<%= show_date %>";
+        var user = "<%= user_id %>";
+        var cinema_id = "<%= cinema %>";
+        var seats = "<%= seatsToReserve %>";
+        console.log("Movie id = " + movie_id);
+        console.log("Booking Date = " + show_date);
+        console.log("seats = " + seats.split(','));
+
+        $(document).on('click', '.btn-lg', function(){
+            if($(this).text() == 'Pay'){
+                console.log("pay");
+
+                //console.log('$(\'#sec_id\').val() = ' + $('#sec_id').val());
+                //console.log('$(\'#exp_id\').val() = ' + $('#exp_date').val());
+                //console.log('$(\'#crd_no\').val() = ' + $('#crd_no').val());
+
+                if($('#sec_id').val() != '' && $('#exp_date').val() != '' && $('#crd_no').val() != '')
+                {
+                    console.log("here");
+                    $.ajax({
+                        type: 'POST',
+                        url: '/vox_cinemas/bookseats',
+                        data: JSON.stringify({seats:seats.split(','), id: movie_id, date: show_date, user_id: user, cinema_id: cinema_id}),
+                        success: function(data) { console.log('success');
+                            console.log(data);
+                        },
+                        contentType: "application/json",
+                        dataType: 'json'
+                    });
+                    MessengerExtensions.requestCloseBrowser(function success() {
+
+                    }, function error(err) {
+
+                    });
+                }else{
+                    alert('Please fill the required details');
+                }
+
+            }
+        });
+
+
+    </script>
+</head>
+<body>
+<script>
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
+</script>
+<div class="container vert-offset-top-3">
+    <div>
+        <h2>Add Debit Card</h2>
+        <p>Please enter your debit/credit card no to pay Rs.700/- for one ticket.</p>
+
+    </div>
+    <br><br>
+    <div class=" table table-responsive" style="border: none; !important;">
+        <form>
+            <table style="width: 100%">
+
+                <tr>
+                    <td  width="60%" >Card Number</td>
+                    <td width="10%"></td>
+                    <td id="exp_id" width="30%">Expiration Date</td>
+                </tr>
+                <tbody>
+
+                <tr>
+                    <td><input id="crd_no" type="text" placeholder="0000 0000 0000 0000"  width="60%" class="form-control" required></td>
+                    <td width="10%"></td>
+                    <td><input type="text" id="exp_date" width="30%" class=" form-control" required></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class=" table table-responsive" style="border: none; !important;">
+        <form>
+            <table style="width: 50%">
+
+                <tbody>
+
+                <tr>
+                    <td width="30%"> Security Code</td>
+                </tr>
+                <tr>
+                    <td ><input type="text" id="sec_id"   class="form-control" style="margin-top: 7px; width: 50%" required></td>
+                </tr>
+
+                </tbody>
+            </table>
+            <p id="txt"> Your payment info stored securely.</p>
+            <a href="#">Learn More</a>
+            <button type="button" class="btn-info btn-lg">Pay</button>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

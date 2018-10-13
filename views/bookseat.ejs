@@ -11,15 +11,15 @@
 	<script src="/javascripts/seatbooking.js"></script>
 
 	<script>
-        var seatCount = 5;
-        var bookseats = [];
-        var movie_id = "<%= movie_id %>";
-        var show_date = "<%= show_date %>";
-        var user = "<%= user_id %>";
-        var cinema_id = "<%= cinema %>";
-        console.log("Movie id = " + movie_id);
-        console.log("Booking Date = " + show_date);
-        $(document).ready(function () {
+            var seatCount = 5;
+            var bookseats = [];
+            var movie_id = "<%= movie_id %>";
+            var show_date = "<%= show_date %>";
+            var user = "<%= user_id %>";
+            var cinema_id = "<%= cinema %>";
+            console.log("Movie id = " + movie_id);
+            console.log("Booking Date = " + show_date);
+            $(document).ready(function () {
             var reservedSeats = "<%= reservedSeats %>";
 
             reservedSeats = reservedSeats.split(',');
@@ -58,27 +58,24 @@
 
                         $('#'+bookseats[i]).toggleClass('cp-selected-seat cp-sold-seat');
                     }
+                    $('#movie_id').val(movie_id);
+                    $('#seats').val(bookseats);
+                    $('#cinema_id').val(cinema_id);
+                    $('#date').val(show_date);
+                    $('#user_id').val(user);
 
-                    $.ajax({
+                    //window.location.pathname = `/vox_cinemas/getPayment?seats=${bookseats.toString()}&id=${movie_id}&cinema_id=${cinema_id}&date=${show_date}&user_id=${user}`;
+                    //bookseats = [];
+
+                    /*$.ajax({
                         type: 'POST',
-                        url: '/vox_cinemas/bookseats',
+                        url: '/vox_cinemas/getPayment',
                         data: JSON.stringify({seats:bookseats, id: movie_id, date: show_date, user_id: user, cinema_id: cinema_id}),
                         success: function(data) { console.log('success')},
                         contentType: "application/json",
                         dataType: 'json'
-                    });
-                    bookseats = [];
-                    // $('#chat').val(sendSeats);
-                    //document.getElementById('chat').value = sendSeats;
-                    //setSenderMessage();
-                    //web.sendMessage();
-                    //setReciverMessage();
+                    });*/
 
-                    MessengerExtensions.requestCloseBrowser(function success() {
-
-                    }, function error(err) {
-
-                    });
                 }
             }
         });
@@ -251,9 +248,18 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xs-12 col-md-12 col-lg-12 text-center">
-							<button class="style-btn">Book Seats</button>
-						</div>
+
+                        <form action="getPayment" method="post">
+                            <input type="hidden" name="id" id="movie_id">
+                            <input type="hidden" name="seats" id="seats">
+                            <input type="hidden" name="cinema_id" id="cinema_id">
+                            <input type="hidden" name="date" id="date">
+                            <input type="hidden" name="user_id" id="user_id">
+                            <div class="col-xs-12 col-md-12 col-lg-12 text-center">
+                                <button class="style-btn">Book Seats</button>
+                            </div>
+                        </form>
+
 					</section>
 				</span>
 			</div>

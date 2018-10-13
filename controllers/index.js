@@ -22,6 +22,7 @@ router.get('/getCities', cinemaController.getCities);
 router.get('/getCinemas', cinemaController.getCinemas);
 router.get('/getCinemaId', cinemaController.getCinemaId);
 router.get('/chooseSeats', seatBookingController.renderSeats);
+router.post('/getPayment', seatBookingController.paymentDetails);
 router.post('/bookseats', seatBookingController.bookSeats);
 
 module.exports = router;

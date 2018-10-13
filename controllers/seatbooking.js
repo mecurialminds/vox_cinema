@@ -4,9 +4,19 @@ let db                   = require('./../models/db'),
     md5                  = require('md5'),
     cons                 = require('consolidate'),
     request              = require('request'),
-    _this                = this;
+    _this                = this,
+    seatsArr             = [];
 
 
+exports.paymentDetails = function(req,res) {
+    let seats = req.body.seats,
+        movie_id = req.body.id,
+        show_date = req.body.date,
+        user_id = req.body.user_id,
+        cinema_id =  req.body.cinema_id;
+    res.render('payment.ejs',{seatsToReserve : seats, movie_id: movie_id, show_date: show_date, user_id: user_id, cinema: cinema_id});
+
+};
 exports.bookSeats = function(req,res) {
     let seats = req.body.seats,
         movie_id = req.body.id,
