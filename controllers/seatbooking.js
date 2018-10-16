@@ -48,8 +48,15 @@ exports.bookSeats = function(req,res) {
 
     db.insertBulk(query,values, (data) => {
         if (data.success) {
-            console.log('success');
-            request.get(sendMessageURL + `?id=${user_id}&msg=${message}&access_token=${pageToken}`);
+            query = `select movies.title, cinemas.cinema, cinemas.city from movies,cinemas where movies.id = ${movie_id} AND cinemas.id = ${cinema_id}`;
+            db.readOperation(query, (result) => {
+                if(result.success) {
+                   message = `Dear customer, your seat ${seats.join(',')} has been confirmed at ${result.data[0].cinema} in ${result.data[0].city} on ${show_date} for the movie ${result.data[0].title}. Please collect ticket at the ticket counter. Thank You`;
+                    console.log('success');
+                    request.get(sendMessageURL + `?id=${user_id}&msg=${message}&access_token=${pageToken}`);
+                }
+
+            });
         } else res.json(data);
     });
 
